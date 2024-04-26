@@ -5,7 +5,7 @@
 - ► Mail: ognitorenks@gmail.com
 - ► Site: [https://ognitorenks.blospot.com](https://ognitorenks.blospot.com)
 - Supported languages = English │ Turkish
-- Multiboot Manager hakkında (Türkçe): 
+- Multiboot Manager hakkında (Türkçe): https://ognitorenks.blogspot.com/2024/04/coklu-onyukleme-yoneticisi-multiboot.html
 
 All rights of the work belong to Hüseyin UZUNYAYLA. It is forbidden to develop, copy, change the content of the work. If you want to share the application on different platforms, you need to get permission from me.
 
