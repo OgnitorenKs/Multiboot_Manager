@@ -1,4 +1,4 @@
-![Repo1](https://raw.githubusercontent.com/OgnitorenKs/Toolbox/main/.github/Repo-SS/Title.png)
+![Repo1](https://raw.githubusercontent.com/OgnitorenKs/Multiboot_Manager/main/.github/Repo-SS/Title.png)
 
 #### Prepared by: Hüseyin UZUNYAYLA / OgnitorenKs
 - ► Discord: https://discord.gg/7hbzSGTYeZ
