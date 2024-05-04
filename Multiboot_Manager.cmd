@@ -58,7 +58,6 @@ Findstr /i "Language_Pack" %Konum%\Settings.ini > NUL 2>&1
 														  ) 
 						  )
 	if !errorlevel! EQU 0 (FOR /F "tokens=3" %%a in ('Findstr /i "Language_Pack" %Konum%\Settings.ini') do (set Dil=%Konum%\Language\%%a.cmd))
-set Dil=%Konum%\Language\English.cmd
 REM -------------------------------------------------------------
 Call :Path_Check "%Konum%"
 	if "!Error!" EQU "X" (exit)
