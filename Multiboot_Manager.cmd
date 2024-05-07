@@ -42,7 +42,7 @@ reg query "HKU\S-1-5-19" > NUL 2>&1
 )
 
 REM -------------------------------------------------------------
-FOR %%a in (Config DiskDevice DiskDevice2 DiskMenu) do (DEL /F /Q /A "%Konum%\%%a.txt" > NUL 2>&1)
+FOR %%a in (Config DiskDevice DiskMenu DiskMenu) do (DEL /F /Q /A "%Konum%\%%a.txt" > NUL 2>&1)
 
 REM -------------------------------------------------------------
 REM Settings.ini dosyası içine dil bilgisi kayıtlı ise onu alır. Yok ise sistem varsayılan diline göre atama yapar.
@@ -171,14 +171,14 @@ REM -------------------------------------------------------------
 :VHD_Redifine
 mode con cols=100 lines=25
 Call :Dil A 2 Value_3_&echo.&set /p Road=►%R%[32m !LA2!: %R%[0m
-Call :Path_Check "%Road%"
+Call :Path_Check "!Road!"
 	if "!Error!" EQU "X" (goto Menu)
 Call :NailRemove Road !Road!
-Call :Powershell "Get-CimInstance -ClassName Win32_LogicalDisk | Select-Object -Property DeviceID" > %Konum%\DiskDevice.txt
+Call :Powershell "Get-CimInstance -ClassName Win32_LogicalDisk | Select-Object -Property DeviceID | FL" > %Konum%\DiskDevice.txt
 set Count=0
-FOR /F "delims=':' tokens=1" %%a in ('Findstr /i ":" %Konum%\DiskDevice.txt') do (
+FOR /F "tokens=3" %%a in ('Findstr /i "DeviceID" %Konum%\DiskDevice.txt') do (
 	set /a Count+=1
-	echo Harf_!Count!_^>%%a^> >> %Konum%\DiskDevice2.txt
+	echo Harf_!Count!_^>%%a^> >> %Konum%\DiskMenu.txt
 )
 set /a Count+=1
 set Error=0
@@ -188,18 +188,46 @@ echo attach vdisk
 echo exit
 ) > %Konum%\Config.txt
 diskpart /s %Konum%\Config.txt
-DEL /F /Q /A "%Konum%\DiskDevice2.txt" > NUL 2>&1
-Call :Powershell "Get-CimInstance -ClassName Win32_LogicalDisk | Select-Object -Property DeviceID" > %Konum%\DiskDevice.txt
+DEL /F /Q /A "%Konum%\DiskMenu.txt" > NUL 2>&1
+Call :Powershell "Get-CimInstance -ClassName Win32_LogicalDisk | Select-Object -Property DeviceID,VolumeName | FL" > %Konum%\DiskDevice.txt
 set Count2=0
-FOR /F "delims=':' tokens=1" %%a in ('Findstr /i ":" %Konum%\DiskDevice.txt') do (
+FOR /F "delims=':' tokens=2" %%a in ('Findstr /i "VolumeName" %Konum%\DiskDevice.txt 2^>NUL') do (
 	set /a Count2+=1
-	echo Harf_!Count2!_^>%%a^> >> %Konum%\DiskDevice2.txt
+	set Value=%%a
+	set Value=!Value:~1!
+	echo DDisk_Name_!Count2!_^>!Value!^> >> %Konum%\DiskMenu.txt
+)
+set Count2=0
+FOR /F "tokens=3" %%a in ('Findstr /i "DeviceID" %Konum%\DiskDevice.txt') do (
+	set /a Count2+=1
+	echo DDisk_Harf_!Count2!_^>%%a^> >> %Konum%\DiskMenu.txt
 )
 set Harf=
-FOR /F "delims=> tokens=2" %%a in ('Findstr /i "Harf_!Count!_" %Konum%\DiskDevice2.txt') do (set Harf=%%a)
+set /a Calc=!Count2! - !Count!
+	if "!Calc!" EQU "0" (FOR /F "delims=> tokens=2" %%a in ('Findstr /i "Harf_!Count!_" %Konum%\DiskMenu.txt') do (set Harf=%%a)
+						 goto VDF_Redifine_Pass
+						)
+	if "!Calc!" NEQ "0" (goto Redifine_Menu)
+	
+REM -------------------------------------------------------------
+:Redifine_Menu
+cls&Call :Dil A 2 Title_5_&echo ►%R%[96m !LA2! %R%[0m&echo.
+FOR /L %%a in (1,1,!Count2!) do (
+	FOR /F "delims=> tokens=2" %%b in ('Findstr /i "DDisk_Harf_%%a_" %Konum%\DiskMenu.txt 2^>NUL') do (
+		FOR /F "delims=> tokens=2" %%c in ('Findstr /i "DDisk_Name_%%a_" %Konum%\DiskMenu.txt 2^>NUL') do (
+			echo %R%[32m   %%a%R%[90m-%R%[33m %%b %R%[90m-%R%[36m %%c %R%[0m
+		)
+	)
+)
+Call :Dil A 2 Value_1_&set /p Disk=►%R%[32m !LA2!: %R%[0m
+FOR /F "delims=> tokens=2" %%a in ('Findstr /i "DDisk_Harf_!Disk!_" %Konum%\DiskMenu.txt 2^>NUL') do (set Harf=%%a)
+goto VDF_Redifine_Pass
+
+REM -------------------------------------------------------------
+:VDF_Redifine_Pass
 set Count=
 set Count2=
-bcdboot !Harf!:\Windows
+bcdboot !Harf!\Windows
 Call :Dil A 2 Text_2_&echo.&echo ►%R%[92m !LA2! %R%[0m
 Call :Bekle 2
 goto Menu
