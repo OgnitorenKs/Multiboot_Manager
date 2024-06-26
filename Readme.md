@@ -60,6 +60,7 @@ All rights of the work belong to Hüseyin UZUNYAYLA. It is forbidden to develop,
 - "Write disk size in GB" You need to enter the new size of the VHD in GB
 
 ![Tool4.1(https://raw.githubusercontent.com/OgnitorenKs/Multiboot_Manager/main/.github/Manager/4.1.png)
+
 ![Tool4.2](https://raw.githubusercontent.com/OgnitorenKs/Multiboot_Manager/main/.github/Manager/4.2.png)
 
 </details>
