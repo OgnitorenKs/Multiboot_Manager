@@ -22,7 +22,7 @@ echo off
 chcp 65001 > NUL 2>&1
 setlocal enabledelayedexpansion
 cls
-title Multiboot Manager │ OgnitorenKs
+title Multiboot Manager_v4.0 │ OgnitorenKs
 
 REM -------------------------------------------------------------
 REM Renklendirm için gerekli
@@ -68,7 +68,7 @@ mode con cols=70 lines=15
 echo.
 Call :Dil A 2 Title_1_&echo ►%R%[96m !LA2! %R%[0m
 echo.
-FOR /L %%a in (1,1,3) do (
+FOR /L %%a in (1,1,4) do (
 	FOR /F "delims=> tokens=2" %%b in ('Findstr /i "Menu_%%a_" !Dil! 2^>NUL') do (
 		echo   %R%[32m%%a%R%[90m-%R%[33m %%b %R%[0m
 	)
@@ -77,32 +77,56 @@ Call :Dil A 2 Value_1_&echo.&set /p Menu=►%R%[32m !LA2!: %R%[0m
 	if "!Menu!" EQU "1" (goto VHD_Maker)
 	if "!Menu!" EQU "2" (goto Image_Manager)
 	if "!Menu!" EQU "3" (goto VHD_Redifine)
+	if "!Menu!" EQU "4" (goto VHD_Size)
 goto Menu
 
 REM -------------------------------------------------------------
 :VHD_Maker
-cls
+mode con cols=100 lines=25
+REM VHD hangi isimle 
 Call :Dil A 2 Value_3_&echo.&set /p Road=►%R%[32m !LA2!: %R%[0m
 echo !Road! | Findstr /i ".vhd" > NUL 2>&1
 	if "!errorlevel!" NEQ "0" (set Road=!Road!.vhd)
 Call :Dil A 2 Value_2_&echo.&set /p Size=►%R%[32m !LA2!: %R%[0m
 set /a Size=!Size! * 1024
+REM Disk yapılandırma türünü kullanıcıya soruyorum.
 Call :Dil A 2 Title_2_&echo.&echo ►%R%[96m !LA2! %R%[0m
 echo  %R%[32m 1%R%[90m-%R%[33m MBR %R%[0m
 echo  %R%[32m 2%R%[90m-%R%[33m GPT %R%[0m
 Call :Dil A 2 Value_1_&echo.&set /p Type=►%R%[32m !LA2!: %R%[0m
 	if "!Type!" EQU "1" (set Type=MBR)
 	if "!Type!" EQU "2" (set Type=GPT)
-Call :Dil A 2 Title_3_&cls&echo.&echo %R%[33m !LA2! %R%[0m
 (
 echo create vdisk file="!Road!" maximum=!Size! type=fixed
 echo attach vdisk
 ) > %Konum%\Config.txt
 if "!Type!" EQU "GPT" (echo convert gpt >> %Konum%\Config.txt)
+REM VHD adını kullanıcı vermek isterse diye sorguluyorum.
+set VHD_Name=VHD-!Random!
+Call :Dil A 2 Text_3_&echo.&set /p VHD_Sor=►%R%[32m !LA2! %R%[90m[%R%[33m Y %R%[90m│%R%[33m N %R%[90m]: %R%[0m
+Call :Upper !VHD_Sor! VHD_Sor
+	if "!VHD_Sor!" NEQ "Y" (Call :Dil A 2 Value_6_&echo.
+	                        set /p VHD_Name=►%R%[36m !LA2!: %R%[0m
+						   )
 (
 echo create part primary
-echo format quick label="VHD-%Random%"
+echo format quick label="!VHD_Name!"
 ) >> %Konum%\Config.txt
+set VHD_Sor=
+set VHD_Name=
+REM Açılışta vhd görünür hale getirilmesiyle alakalı kullanıcıya soru yöneltiyorum
+Call :Dil A 2 Value_7_&echo.&set /p VHD_Sor=►%R%[32m !LA2! %R%[90m[%R%[33m Y %R%[90m│%R%[33m N %R%[90m]: %R%[0m
+Call :Upper !VHD_Sor! VHD_Sor
+set VHD_Logon=VHD_Logon_%Random%
+	if "!VHD_Sor!" EQU "Y" ((
+	                        echo select vdisk file="!Road!"
+	                        echo attach vdisk
+	                        echo exit
+							) > %AppData%\!VHD_Logon!.txt
+							Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /f /v "Multiboot_Manager_%Random%" /t REG_SZ /d "cmd /c diskpart /s \"%%AppData%%\!VHD_Logon!.txt\"" > NUL 2>&1
+						   )
+REM VHD oluşturma bölümü
+Call :Dil A 2 Title_3_&cls&echo.&echo %R%[33m !LA2! %R%[0m
 Call :Powershell "Get-CimInstance -ClassName Win32_LogicalDisk | Select-Object -Property DeviceID" > %Konum%\DiskDevice.txt
 set Error=0
 FOR %%a in (J K L M N P R S T V Y Z) do (
@@ -114,6 +138,7 @@ echo exit
 ) >> %Konum%\Config.txt
 diskpart /s %Konum%\Config.txt
 Call :Dil A 2 Text_2_&echo.&echo ►%R%[92m !LA2! %R%[0m
+DEL /F /Q /A "%Konum%\Config.txt" > NUL 2>&1
 Call :Bekle 2
 goto Menu
 
@@ -170,6 +195,7 @@ goto Menu
 REM -------------------------------------------------------------
 :VHD_Redifine
 mode con cols=100 lines=25
+REM VHD yolunu alıyorum
 Call :Dil A 2 Value_3_&echo.&set /p Road=►%R%[32m !LA2!: %R%[0m
 Call :Path_Check "!Road!"
 	if "!Error!" EQU "X" (goto Menu)
@@ -230,6 +256,38 @@ set Count2=
 bcdboot !Harf!\Windows
 Call :Dil A 2 Text_2_&echo.&echo ►%R%[92m !LA2! %R%[0m
 Call :Bekle 2
+goto Menu
+
+REM -------------------------------------------------------------
+:VHD_Size
+REM VHD boyutu arttırma bölümü
+mode con cols=100 lines=25
+Call :Dil A 2 Menu_4_&echo ►%R%[96m !LA2! %R%[0m
+Call :Dil A 2 Value_3_&echo.&set /p Road=►%R%[32m !LA2!: %R%[0m
+Call :NailRemove Road !Road!
+Call :Path_Check "!Road!"
+	if "!Error!" EQU "X" (goto Menu)
+Call :Dil A 2 Value_2_&echo.&set /p Size=►%R%[32m !LA2!: %R%[0m
+set /a Size2=!Size! * 1024
+Call :Dil A 2 Text_5_&echo.&echo %R%[33m !LA2! %R%[0m
+Call :Dil A 2 Value_9_&echo.&echo %R%[90m !LA2! %R%[0m
+pause > NUL
+cls
+(
+echo select vdisk file="!Road!"
+echo expand vdisk maximum=!Size2!
+echo exit
+) > %Konum%\VHD_Size.txt
+Call :Dil A 2 Title_6_&echo.&echo ►%R%[36m !LA2!%R%[33m !Size! GB %R%[0m
+diskpart /s %Konum%\VHD_Size.txt
+DEL /F /Q /A "%Konum%\VHD_Size.txt" > NUL 2>&1
+set Size=
+set Size2=
+set Road=
+cls
+Call :Dil A 2 Text_4_&echo.&echo •%R%[33m !LA2! %R%[0m
+Call :Dil A 2 Value_8_&echo.&echo %R%[90m !LA2! %R%[0m
+pause > NUL
 goto Menu
 
 REM █████████████████████████████████████████████████████████████

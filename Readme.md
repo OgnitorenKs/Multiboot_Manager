@@ -21,12 +21,13 @@ All rights of the work belong to Hüseyin UZUNYAYLA. It is forbidden to develop,
 - In the "Define the VHD Path:" section you need to type the location and name where you will create the VHD. You don't have to type the extension, it will complete it automatically. It is also fine if you write it.
 - "Write disk size in GB" will ask for the size of the VHD in this section. Write the size you want in GB. My advice is not to go below 30 GB.
 - "VHD configuration type" section will ask for the disk configuration type. You need to select "GPT" if there is UEFI support, or "MBR" otherwise.
+- "Should the VHD be given a random name?" if you press 'N' in this section you can enter the VHD visible name in the 'This computer' section.
+- "Make VHD visible at system startup?" In order for VHD to be visible on the main system, diskpart commands must be executed at each boot. If you do not want to deal with this process and want it to be done automatically on every boot, you need to press 'Y'. After applying this setting, the command screen (CMD) will open and close at system startup due to Diskpart commands.
 - It will then create the VHD and return to the main menu.
 
 ![Tool1](https://raw.githubusercontent.com/OgnitorenKs/Multiboot_Manager/main/.github/Manager/1.png)
 
 </details><details><B><summary> 2- Windows installation</B></summary>
-
 
 - In this section you can quickly install Windows by inserting the ISO you have into the system or extracting it to any folder and defining its path. You can give the path to the folder path of the image or directly to the install.wim/esd file.
 
@@ -50,5 +51,15 @@ All rights of the work belong to Hüseyin UZUNYAYLA. It is forbidden to develop,
 - After entering this section, you need to define the path to the VHD file. After the definition process, it makes the VHD file visible and sets it as the system to be opened by default. If you reboot the system, VHD will start from the system on disk.
 
 ![Tool3](https://raw.githubusercontent.com/OgnitorenKs/Multiboot_Manager/main/.github/Manager/3.png)
+
+</details><details><B><summary> 4- Increase VHD size</B></summary>
+
+- WARNING: Before doing anything in this section, you must right-click on the attached VHD from "This computer" and remove it
+- WARNING: In this section you can only upgrade the VHD size
+- "Define the VHD Path:" You need to enter the folder path of the VHD here
+- "Write disk size in GB" You need to enter the new size of the VHD in GB
+
+![Tool4.1(https://raw.githubusercontent.com/OgnitorenKs/Multiboot_Manager/main/.github/Manager/4.1.png)
+![Tool4.2](https://raw.githubusercontent.com/OgnitorenKs/Multiboot_Manager/main/.github/Manager/4.2.png)
 
 </details>
