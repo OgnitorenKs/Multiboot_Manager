@@ -50,14 +50,14 @@ Findstr /i "Language_Pack" %Konum%\Settings.ini > NUL 2>&1
 	if !errorlevel! NEQ 0 (FOR /F "tokens=6" %%a in ('Dism /online /Get-intl ^| Find /I "Default system UI language"') do (set DefaultLang=%%a)
 						   if "!DefaultLang!" EQU "tr-TR" (echo. >> %Konum%\Settings.ini
 														   echo ► Language_Pack^= Turkish >> %Konum%\Settings.ini
-														   set Dil=%Konum%\Language\Turkish.cmd
+														   set Dil=%Konum%\Bin\Language\Turkish.cmd
 														  )
 						   if "!DefaultLang!" NEQ "tr-TR" (echo. >> %Konum%\Settings.ini
 														   echo ► Language_Pack= English >> %Konum%\Settings.ini
-														   set Dil=%Konum%\Language\English.cmd
+														   set Dil=%Konum%\Bin\Language\English.cmd
 														  ) 
 						  )
-	if !errorlevel! EQU 0 (FOR /F "tokens=3" %%a in ('Findstr /i "Language_Pack" %Konum%\Settings.ini') do (set Dil=%Konum%\Language\%%a.cmd))
+	if !errorlevel! EQU 0 (FOR /F "tokens=3" %%a in ('Findstr /i "Language_Pack" %Konum%\Settings.ini') do (set Dil=%Konum%\Bin\Language\%%a.cmd))
 REM -------------------------------------------------------------
 Call :Path_Check "%Konum%"
 	if "!Error!" EQU "X" (exit)

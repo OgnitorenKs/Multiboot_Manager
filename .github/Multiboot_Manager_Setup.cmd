@@ -31,7 +31,7 @@ echo Set oLink = oWS.CreateShortcut^(sLinkFile^)
 echo oLink.TargetPath = "C:\Multiboot_Manager\Multiboot_Manager.cmd"
 echo oLink.WorkingDirectory = "C:\Multiboot_Manager"
 echo oLink.Description = "Multiboot_Manager"
-echo oLink.IconLocation = "C:\Multiboot_Manager\Language\simge.ico"
+echo oLink.IconLocation = "C:\Multiboot_Manager\Bin\Icon\Ogni.ico"
 echo oLink.Save
 ) > %Temp%\OgnitorenKs.Shortcut.vbs
 cscript "%Temp%\OgnitorenKs.Shortcut.vbs" > NUL 2>&1
