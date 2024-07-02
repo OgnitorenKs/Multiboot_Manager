@@ -11,7 +11,7 @@ Value_3_>Define the VHD path>
 Value_4_>Image folder path>
 Value_5_>Select VHD>
 Value_6_>Enter the VHD display name>
-Value_7_>Make VHD visible at system startup?>
+Value_7_>Add script to the desktop that makes VHD visible?>
 Value_8_>Press any key to return to the menu>
 Value_9_>Press any key to continue the process>
 ::███████████████████████████████████████████████████████████████████

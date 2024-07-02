@@ -22,7 +22,7 @@ All rights of the work belong to Hüseyin UZUNYAYLA. It is forbidden to develop,
 - "Write disk size in GB" will ask for the size of the VHD in this section. Write the size you want in GB. My advice is not to go below 30 GB.
 - "VHD configuration type" section will ask for the disk configuration type. You need to select "GPT" if there is UEFI support, or "MBR" otherwise.
 - "Should the VHD be given a random name?" if you press 'N' in this section you can enter the VHD visible name in the 'This computer' section.
-- "Make VHD visible at system startup?" In order for VHD to be visible on the main system, diskpart commands must be executed at each boot. If you do not want to deal with this process and want it to be done automatically on every boot, you need to press 'Y'. After applying this setting, the command screen (CMD) will open and close at system startup due to Diskpart commands.
+- "Add script to the desktop that makes VHD visible?" To access VHD on the main system, you need to make it visible with Diskpart. You need to do this every time you boot the system. If you want to do this with one click, you can add a script to the desktop and do it with one click.
 - It will then create the VHD and return to the main menu.
 
 ![Tool1](https://raw.githubusercontent.com/OgnitorenKs/Multiboot_Manager/main/.github/Manager/1.png)

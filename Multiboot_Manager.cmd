@@ -22,7 +22,7 @@ echo off
 chcp 65001 > NUL 2>&1
 setlocal enabledelayedexpansion
 cls
-title Multiboot Manager_v4.0 │ OgnitorenKs
+title Multiboot Manager_v4.2 │ OgnitorenKs
 
 REM -------------------------------------------------------------
 REM Renklendirm için gerekli
@@ -117,13 +117,20 @@ set VHD_Name=
 REM Açılışta vhd görünür hale getirilmesiyle alakalı kullanıcıya soru yöneltiyorum
 Call :Dil A 2 Value_7_&echo.&set /p VHD_Sor=►%R%[32m !LA2! %R%[90m[%R%[33m Y %R%[90m│%R%[33m N %R%[90m]: %R%[0m
 Call :Upper !VHD_Sor! VHD_Sor
-set VHD_Logon=VHD_Logon_%Random%
+set VHD_Logon=VHD_%Random%_Enable
 	if "!VHD_Sor!" EQU "Y" ((
-	                        echo select vdisk file="!Road!"
-	                        echo attach vdisk
-	                        echo exit
-							) > %AppData%\!VHD_Logon!.txt
-							Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /f /v "Multiboot_Manager_%Random%" /t REG_SZ /d "cmd /c diskpart /s \"%%AppData%%\!VHD_Logon!.txt\"" > NUL 2>&1
+	                        echo echo off
+							echo chcp 65001
+							echo setlocal enabledelayedexpansion
+							echo cls
+							echo ^(
+	                        echo echo select vdisk file="!Road!"
+	                        echo echo attach vdisk
+	                        echo echo exit
+							echo ^) ^> %%AppData%%\!VHD_Logon!.txt
+							echo diskpart /s %%AppData%%\!VHD_Logon!.txt
+							echo DEL /F /Q /A "%%AppData%%\!VHD_Logon!.txt" ^> NUL 2^>^&1
+							) > C:\Users\%Username%\Desktop\!VHD_Logon!.cmd
 						   )
 REM VHD oluşturma bölümü
 Call :Dil A 2 Title_3_&cls&echo.&echo %R%[33m !LA2! %R%[0m

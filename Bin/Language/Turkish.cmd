@@ -11,7 +11,7 @@ Value_3_>VHD yolunu tanımlayın>
 Value_4_>İmaj klasör yolu>
 Value_5_>VHD seçin>
 Value_6_>VHD görüntüleme adını girin>
-Value_7_>Sistem açılışında VHD görünür hale getirilsin mi?>
+Value_7_>Masaüstüne VHD'yi görünür yapan komut dosyası eklensin mi?>
 Value_8_>Menüye dönmek için herhang bir tuşa basın>
 Value_9_>İşleme devam etmek için herhang bir tuşa basın>
 ::███████████████████████████████████████████████████████████████████

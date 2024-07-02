@@ -5,7 +5,11 @@
 -   Site: [https://ognitorenks.blospot.com](https://ognitorenks.blospot.com)
 
 
-<details><B><summary> Versiyon 4.1 ► 28.06.2024</B></summary>
+<details><B><summary> Versiyon 4.2 ► 02.07.2024</B></summary>
+
+    • VHD oluştur bölümündeki 'başlangıçta VHD'yi görünür yap' kısmı, 'Masaüstüne VHD'yi görünür yapan komut dosyası ekleyecek' şekilde düzenlendi.
+
+</details><details><B><summary> Versiyon 4.1 ► 28.06.2024</B></summary>
 
     • Bin klasörü oluşturuldu ilgili dosyaları içine aktarıldı.
 
